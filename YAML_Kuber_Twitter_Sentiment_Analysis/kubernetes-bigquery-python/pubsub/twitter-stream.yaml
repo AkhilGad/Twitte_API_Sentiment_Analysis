@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter-stream
+  labels:
+    name: twitter-stream
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: twitter-stream
+  template:
+    metadata:
+      labels:
+        name: twitter-stream
+    spec:
+      containers:
+      - name: twitter-to-pubsub
+        image: gcr.io/google-samples/pubsub-bq-pipe:v5
+        env:
+        - name: PROCESSINGSCRIPT
+          value: twitter-to-pubsub
+        - name: PUBSUB_TOPIC
+          value: projects/egentwitterdataanalysis/topics/my_twitter_topic
+        - name: CONSUMERKEY
+          value: "R5yELpwehgZ2o3GtDB4eHgtfa"
+        - name: CONSUMERSECRET
+          value: "qKMGuCmlIRB7yxrJlo826J1gyAh86OCQ54Ko52jAKqkgx6e1AC"
+        - name: ACCESSTOKEN
+          value: "1411131735681781767-QpzWYzAWeJPWHakW1BwhfRe31CGEol"
+        - name: ACCESSTOKENSEC
+          value: "NDlqPiKUSZXk34s89bh9F7aolbRsSXyXNhDmwP6NUapBz"
+        - name: TWSTREAMMODE
+          value: sample
